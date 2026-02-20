@@ -1,0 +1,36 @@
+{
+  "name": "in-square/pimcore-deepl-bundle",
+  "description": "DeepL translation bundle for Pimcore objects and documents.",
+  "type": "pimcore-bundle",
+  "keywords": ["pimcore", "deepl", "translation", "pimcore-bundle"],
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/in-square/pimcore-deepl-bundle",
+  "authors": [
+    {
+      "name": "Wladyslaw Dudko",
+      "email": "w.dudko@insquare.pl",
+      "homepage": "https://insquare.pl/"
+    }
+  ],
+  "require": {
+    "php": "^8.2",
+    "symfony/framework-bundle": "^6.4",
+    "pimcore/pimcore": "^11.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.64",
+    "phpstan/phpstan": "^1.11"
+  },
+  "autoload": {
+    "psr-4": {
+      "InSquare\\PimcoreDeeplBundle\\": "src/"
+    }
+  },
+  "extra": {
+    "pimcore": {
+      "bundles": [
+        "InSquare\\PimcoreDeeplBundle"
+      ]
+    }
+  }
+}

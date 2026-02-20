@@ -1,0 +1,11 @@
+# composer
+composer.lock
+vendor
+
+# PhpStorm / IDEA
+.idea
+.idea_modules
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,0 +1,6 @@
+insquare_pimcore_deepl:
+    resource: "../../../Controller/Admin/"
+    type: annotation
+    prefix: /admin/bundle/insquare-deepl
+    options:
+        expose: true
