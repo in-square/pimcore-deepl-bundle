@@ -36,7 +36,6 @@ final class DeeplClient
             : self::FREE_ENDPOINT;
 
         $params = [
-            'auth_key' => $apiKey,
             'text' => $text,
             'target_lang' => strtoupper($targetLang),
         ];
@@ -53,6 +52,7 @@ final class DeeplClient
             $response = $this->httpClient->request('POST', $endpoint, [
                 'headers' => [
                     'Accept' => 'application/json',
+                    'Authorization' => 'DeepL-Auth-Key ' . $apiKey,
                 ],
                 'form_params' => $params,
                 'http_errors' => false,
