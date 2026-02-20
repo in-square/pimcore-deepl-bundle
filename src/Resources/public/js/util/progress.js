@@ -5,6 +5,54 @@ if (typeof pimcore !== 'undefined' && pimcore.registerNS) {
 window.insquare = window.insquare || {};
 window.insquare.deepl = window.insquare.deepl || {};
 
+insquare.deepl.getRoutingCandidates = function () {
+    var candidates = [];
+
+    try {
+        if (window.top && window.top.Routing) {
+            candidates.push(window.top.Routing);
+        }
+    } catch (e) {
+    }
+
+    try {
+        if (window.parent && window.parent.Routing && window.parent !== window.top) {
+            candidates.push(window.parent.Routing);
+        }
+    } catch (e2) {
+    }
+
+    if (typeof Routing !== 'undefined') {
+        candidates.push(Routing);
+    }
+
+    return candidates;
+};
+
+insquare.deepl.getRoutingForRoute = function (routeName) {
+    var candidates = insquare.deepl.getRoutingCandidates();
+
+    for (var i = 0; i < candidates.length; i++) {
+        var router = candidates[i];
+        if (!router || typeof router.generate !== 'function') {
+            continue;
+        }
+        if (typeof router.hasRoute !== 'function' || router.hasRoute(routeName)) {
+            return router;
+        }
+    }
+
+    return null;
+};
+
+insquare.deepl.route = function (routeName, params, absolute) {
+    var router = insquare.deepl.getRoutingForRoute(routeName);
+    if (!router) {
+        return null;
+    }
+    return router.generate(routeName, params || {}, absolute);
+};
+
 insquare.deepl.createProgressWindow = function (title, total) {
     var progressBar = Ext.create('Ext.ProgressBar', {
         width: 420,

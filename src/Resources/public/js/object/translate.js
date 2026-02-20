@@ -90,13 +90,25 @@ pimcore.element.insquareDeeplObjectTranslate = Class.create({
             return;
         }
 
+        var settingsUrl = insquare.deepl.route('insquare_pimcore_deepl_settings');
+        if (!settingsUrl) {
+            insquare.deepl.showMessage(t('insquare_deepl_error_title'), t('insquare_deepl_error_generic'));
+            return;
+        }
+
         Ext.Ajax.request({
-            url: Routing.generate('insquare_pimcore_deepl_settings'),
+            url: settingsUrl,
             method: 'GET',
             success: function (response) {
                 var settings = Ext.decode(response.responseText, true) || {};
                 if (!settings.configured) {
                     insquare.deepl.showMessage(t('insquare_deepl_missing_key_title'), t('insquare_deepl_missing_key'));
+                    return;
+                }
+
+                var translateUrl = insquare.deepl.route('insquare_pimcore_deepl_object_translate_field');
+                if (!translateUrl) {
+                    insquare.deepl.showMessage(t('insquare_deepl_error_title'), t('insquare_deepl_error_generic'));
                     return;
                 }
 
@@ -112,7 +124,7 @@ pimcore.element.insquareDeeplObjectTranslate = Class.create({
                     tasks,
                     function (task, done, fail) {
                         Ext.Ajax.request({
-                            url: Routing.generate('insquare_pimcore_deepl_object_translate_field'),
+                            url: translateUrl,
                             method: 'POST',
                             params: {
                                 id: this.element.id,
