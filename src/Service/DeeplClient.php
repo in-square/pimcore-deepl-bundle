@@ -55,16 +55,23 @@ final class DeeplClient
                     'Accept' => 'application/json',
                 ],
                 'form_params' => $params,
+                'http_errors' => false,
             ]);
         } catch (\Throwable $exception) {
-            throw new DeeplApiException('DeepL API request failed.');
+            throw new DeeplApiException('DeepL API request failed: ' . $exception->getMessage());
         }
 
         $status = $response->getStatusCode();
         $content = (string) $response->getBody();
 
         if ($status >= 400) {
-            throw new DeeplApiException('DeepL API error.', $status);
+            $message = 'DeepL API error.';
+            $payload = json_decode($content, true);
+            if (is_array($payload) && !empty($payload['message'])) {
+                $message = (string) $payload['message'];
+            }
+
+            throw new DeeplApiException($message, $status);
         }
 
         $payload = json_decode($content, true);
